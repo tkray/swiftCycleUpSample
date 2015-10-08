@@ -14,41 +14,44 @@ class GameScene: SKScene {
     
     var last:CFTimeInterval!
     
+    // sceneが起動した時に呼ばれるメソッド
     override func didMoveToView(view: SKView) {
-        if ( !initiated ) { //初期化時のみ実行
+        //初期化時のみ実行
+        if !initiated {
             self.initContent()
             self.initiated = true
         }
     }
     
-    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        
-    }
+    // 画面をタップされた時に呼ばれるメソッド
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {}
     
+    
+    // 最初の1回だけ呼ばれるメソッド
     func initContent() {
-        self.backgroundColor = SKColor.blueColor() // 背景色設定
-        var label = self.newHelloNode() // テキストノードの作成
-        self.addChild(label) // sceneにテキストノードを追加
-        
-        
+        // 全体の背景色を設定
+        self.backgroundColor = UIColor.hex("#FFFFFF", alpha: 1)
+        // 真ん中のタイトルを作成
+        var label = self.centerTitleNode()
+        // sceneにタイトルを追加
+        self.addChild(label)
     }
     
-    
-    func newHelloNode(Void) -> SKLabelNode {
+    // 真ん中に表示するタイトルを作成するメソッド
+    func centerTitleNode(Void) -> SKLabelNode {
+        // 表示するタイトル
         var helloNode = SKLabelNode(text: "Cycle UP!")
-        helloNode.fontColor = UIColor(red: 1.0, green:1.0, blue: 1.0, alpha: 1)
+        // 文字色の設定
+        helloNode.fontColor = UIColor.hex("#000000", alpha: 0.8)
+        // 文字の大きさ
         helloNode.fontSize = 60
+        // 表示位置
         helloNode.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
         
         return helloNode
     }
     
-    // 一定の間隔で繰り返しShpaeを追加する
-    func alwaysShapeAdd() {
-        
-    }
-    
-    
+    // 円を追加するメソッド
     func addShape() {
         // 画面の横幅をUInt32で取得（乱数を発生させる際にUInt32だから）
         let displayWidth : UInt32 = UInt32(self.view!.frame.width)
@@ -61,20 +64,22 @@ class GameScene: SKScene {
         var location = CGPoint()
         location.x = CGFloat(randomWidth)
         location.y = CGRectGetMinY(self.frame)
-        //location.y = CGFloat(n)
     
-        
         println("追加するよ")
         
+        // 円の大きさ
         var size : CGFloat = self.frame.width/30.0
+        // 円を作成
         let shape = SKShapeNode(circleOfRadius: size)
         //let shape = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(40, 40))
-        //shape.fillColor = UIColor.whiteColor() // 塗りつぶし設定
-        shape.position = location //表示位置設定
+        
+        // 円の色
+        shape.fillColor = UIColor.hex("#E3E3E3", alpha: 1)
+        // 円の表示位置
+        shape.position = location
         
         // 物理的な性質を持たせる
         shape.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(size, size))
-        
         // 重力の影響を受けないようにする
         shape.physicsBody?.affectedByGravity = false
         // 移動速度（Y方向に移動する）
@@ -82,18 +87,10 @@ class GameScene: SKScene {
         // 空気抵抗をなくす
         shape.physicsBody?.linearDamping = 0
         
-        self.addChild(shape) //画面へのオブジェクト追加
+        // 画面に円を追加
+        self.addChild(shape)
     }
     
-    func shoot() {
-        let square = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(40, 40))
-        square.position = CGPoint(x: CGRectGetMidX(self.frame), y: CGRectGetMidY(self.frame))
-        square.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(40, 40))
-        square.physicsBody?.affectedByGravity = false
-        square.physicsBody?.velocity = CGVectorMake(0, 100)
-        square.physicsBody?.linearDamping = 0
-        self.addChild(square)
-    }
     
     override func update(currentTime: CFTimeInterval) {
         
