@@ -37,6 +37,7 @@ class GameScene: SKScene {
         self.addChild(label)
     }
     
+    
     // 真ん中に表示するタイトルを作成するメソッド
     func centerTitleNode(Void) -> SKLabelNode {
         // 表示するタイトル
@@ -47,9 +48,12 @@ class GameScene: SKScene {
         helloNode.fontSize = 60
         // 表示位置
         helloNode.position = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame))
+        // 円よりも前面に表示する
+        helloNode.zPosition = 1
         
         return helloNode
     }
+    
     
     // 円を追加するメソッド
     func addShape() {
@@ -67,8 +71,12 @@ class GameScene: SKScene {
     
         println("追加するよ")
         
+        var randomCycleWidth : Int = Int(arc4random() % 40) + 10
+        
+        println("randomCycleWidth：\(randomCycleWidth)")
+        
         // 円の大きさ
-        var size : CGFloat = self.frame.width/30.0
+        var size : CGFloat = CGFloat(randomCycleWidth)
         // 円を作成
         let shape = SKShapeNode(circleOfRadius: size)
         //let shape = SKSpriteNode(color: UIColor.redColor(), size: CGSizeMake(40, 40))
@@ -77,6 +85,8 @@ class GameScene: SKScene {
         shape.fillColor = UIColor.hex("#E3E3E3", alpha: 1)
         // 円の表示位置
         shape.position = location
+        // タイトルよりも背面に表示する
+        shape.zPosition = 0
         
         // 物理的な性質を持たせる
         shape.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(size, size))

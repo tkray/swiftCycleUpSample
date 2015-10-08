@@ -22,7 +22,4 @@ extension UIColor {
             return UIColor.whiteColor();
         }
     }
-    
-    
-    
 }
